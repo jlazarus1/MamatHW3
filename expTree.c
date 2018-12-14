@@ -17,8 +17,15 @@ typedef struct _node
 typedef struct _tree
 {
 	pNode root;
+	int iNum 		/*we might need it for recursivly going through all the elements in the tree */
 
-	/* *** complete the definition of the tree structure *** */
+	/*function pointers*/
+	CLONE		CloneFunction;
+	DEL_ELEMENT	DelFunction;
+	OPERATE		OperateFunction;
+	GET_KEY		GetKeyFunction;
+	COMPARE_KEYS	CompareKeyFunction;
+	
 } Tree;
 
 /* *** complete the interface functions implementation *** */
