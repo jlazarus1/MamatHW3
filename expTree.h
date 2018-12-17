@@ -3,7 +3,7 @@
 
 #include "defs.h"
 
-/*typdefs of the strucs and pointers */
+/*typdefs of the structs and pointers */
 typedef struct _node *pNode
 typedef struct _tree *pTree
 
