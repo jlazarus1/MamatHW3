@@ -39,11 +39,11 @@ void release (pNode node , pTree pT)
 {
     if (node -> leftChild != NULL)
     {
-        release (node -> leftChild);
+        release (node -> leftChild, pT);
     }
     if (node -> rightChild != NULL)
     {
-        release (node -> rightChild);
+        release (node -> rightChild, pT);
     }
     pT->DelFun(node);
 }
@@ -51,15 +51,16 @@ void release (pNode node , pTree pT)
 // Helps TreeFindElement going recursively to find key
 pNode findkey (pTree pT , pNode pN , pKey pK)
 {
+    pNode pNtmp;
     if (pT->ComparekeyFun(pK , pT->GetkeyFun(pN))) return pN;
 
     if (pN->leftChild != NULL)
     {
-        if (pN =findkey(pT,pN->leftChild,pK) != NULL) return pN;
+        if (pNtmp =findkey(pT,pN->leftChild,pK) != NULL) return pNtmp;
     }
     if (pN->rightChild != NULL)
     {
-        if ((pN = findkey(pT, pN->rightChild,pK) != NULL) != NULL) return pN;
+        if ((pNtmp = findkey(pT, pN->rightChild,pK) != NULL) != NULL) return pNtmp;
     }
     return NULL;
 }
@@ -76,8 +77,8 @@ pElement evaluate(pTree pT, pNode pN)
 
 // TreeCreate gets all the functions needed from the user to create the Tree-Element
 
-pTree TreeCreate (CloneFunction CloneFun , DelFunction DelFun , OperateFunction OperateFun ,
-					 GetKeyFunction Get_keyFun , CompareKeyFunction Compare_keysFun);
+pTree TreeCreate (CloneFunction CloneFun , DelFunction DelFun , OperateFunction OperateFun,
+                  GetKeyFunction Get_keyFun , CompareKeyFunction Compare_keysFun)
 {
 	pTree tree;
 	tree = (pTree)malloc(sizeof(Tree));
@@ -109,7 +110,7 @@ void TreeDestroy (pTree pT)
 }
 
 // Create new node and add it as the root of the tree
-pNode TreeAddRoot (pTree pT pElement e)
+pNode TreeAddRoot (pTree pT , pElement e)
 {
     pElement eC = pT->CloneFun(e);
     pNode pN;
@@ -126,7 +127,7 @@ pNode TreeAddRoot (pTree pT pElement e)
 }
 
 // Create new node and add it as a left child of the input node
-pElement TreeAddLeftChild (pTree pT pNode pN pElement e)
+pNode TreeAddLeftChild (pTree pT , pNode pN , pElement e)
 {
     pElement eC = pT->CloneFun(e);
     pNode pLchild;
@@ -143,7 +144,7 @@ pElement TreeAddLeftChild (pTree pT pNode pN pElement e)
 }
 
 // Create new node and add it as a right child of the input node
-pElement TreeAddRightChild (pTree pT pNode pN pElement e)
+pNode TreeAddRightChild (pTree pT , pNode pN , pElement e)
 {
     pElement eC = pT->CloneFun(e);
     pNode pRchild;
@@ -160,7 +161,7 @@ pElement TreeAddRightChild (pTree pT pNode pN pElement e)
 }
 
 // Go through the tree recursively and looks for the key wanted
-pElement TreeFindElement (pTree pT pKey pK)
+pElement TreeFindElement (pTree pT , pKey pK)
 {
     pNode pN = pT->root;
     if (pT->ComparekeyFun(pK , pT->GetkeyFun(pN))) return pN->elem;
