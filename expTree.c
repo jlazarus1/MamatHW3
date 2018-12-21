@@ -45,7 +45,8 @@ void release (pNode node , pTree pT)
     {
         release (node -> rightChild, pT);
     }
-    pT->DelFun(node);
+    pT->DelFun(node->elem);
+    free(node);
 }
 
 // Helps TreeFindElement going recursively to find key
@@ -68,9 +69,10 @@ pNode findkey (pTree pT , pNode pN , pKey pK)
 // Helps TreeEvaluate function by evaluate the tree's branches
 pElement evaluate(pTree pT, pNode pN)
 {
-    if (pN->leftChild == NULL) return pN->elem; //TODO fix condition of on child ==NULL
+    if (pN->leftChild == NULL) return pN->elem;
     pElement value;
     value = pT->OperateFun(pN->elem, evaluate(pT, pN->leftChild), evaluate(pT, pN->rightChild));
+    return value;
 }
 
 // Tree functions:
@@ -105,7 +107,8 @@ void TreeDestroy (pTree pT)
     {
         release (pT -> root -> rightChild , pT);
     }
-    pT->DelFun(pT -> root);
+    pT->DelFun(pT -> root -> elem);
+    free(pT->root);
     free(pT);
 }
 
@@ -175,7 +178,7 @@ pElement TreeEvaluate (pTree pT)
 {
     pNode pN = pT->root;
     pElement value;
-    if (pN->rightChild == NULL) return NULL; //TODO fix condition of on child ==NULL
+    if (pN->rightChild == NULL) return NULL;
     value = pT->OperateFun(pN->elem, evaluate(pT, pN->leftChild), evaluate(pT, pN->rightChild));
     return value;
 }
