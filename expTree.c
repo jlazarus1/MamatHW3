@@ -57,11 +57,11 @@ pNode findkey (pTree pT , pNode pN , pKey pK)
 
     if (pN->leftChild != NULL)
     {
-        if (pNtmp =findkey(pT,pN->leftChild,pK) != NULL) return pNtmp;
+        if ((pNtmp = findkey(pT,pN->leftChild,pK)) != NULL) return pNtmp;
     }
     if (pN->rightChild != NULL)
     {
-        if ((pNtmp = findkey(pT, pN->rightChild,pK) != NULL) != NULL) return pNtmp;
+        if ((pNtmp = findkey(pT, pN->rightChild,pK)) != NULL) return pNtmp;
     }
     return NULL;
 }

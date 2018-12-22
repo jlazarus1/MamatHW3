@@ -10,8 +10,9 @@
 // Defines:
 typedef CalcElement* pCalcElement;
 
-int tree_exist = 0;
-int root_exist = 0;
+// Global variable
+pTree pTG = NULL;
+
 // Functions implementation :
 
 // Tree functions:
@@ -38,6 +39,7 @@ pCalcElement OperateF (pCalcElement op , pCalcElement left , pCalcElement right)
     pCalcElement res;
     res = (pCalcElement)malloc(sizeof(CalcElement));
     if (res == NULL) return NULL;
+
     res->opType=NULL;
     res->type=OPERAND;
     res->key=NULL;
@@ -126,26 +128,71 @@ void create_element (pCalcElement elem , char* str)
 
 }
 
+// Adding left branch in expression tree:
+Result addleft (char* exp , pNode pN)
+{
+
+}
 
 /*------------------------------------------------------------------------------*/
 // Expression functions:
 
+// Build the math expression tree
 Result InitExpression( char* exp )
 {
-    char* tok = strtok( exp, " " );
-    pCalcElement e = (pCalcElement)malloc(sizeof(CalcElement)); //TODO remember to free
-    pTree pT;
+    char* math = exp;
+    char* tok = strtok_r( math, " " , &math);
+    if (tok == NULL) return FAILURE;
+
+    pCalcElement e = (pCalcElement)malloc(sizeof(CalcElement));//TODO remember to free
+    if (e == NULL) return FAILURE;
+
+    create_element(e , tok);
     pNode pN;
 
-    pT = TreeCreate(CloneF,DelF,OperateF, // TODO: add condition for deleting existing tree
-               GetKeyF,CompareKeyF);
+    if (pTG != NULL) TreeDestroy(pTG);
 
-    while (tok != NULL)
+    pTG = TreeCreate(CloneF , DelF , OperateF,
+               GetKeyF , CompareKeyF);
+
+    pN = TreeAddRoot(pTG, e);
+
+    if (e->type != OPERATOR) // if the tree is only one number then finish
     {
-        create_element(e , tok);
-        if (root_exist)
-        {
-            
-        }
+        return SUCCESS;
     }
+
+    addleft(math , pN);
+    addright(math , pN);
+}
+
+
+// set symbols in the expression tree
+Result SetSymbolVal( char* symName, float val )
+{
+    pCalcElement e;
+
+    e = TreeFindElement(pTG , symName);
+
+    if (e == NULL) return FAILURE;
+
+    e->key = NULL;
+    e->val = val;
+    e->type = OPERAND;
+    e->opType = NULL;
+    return SUCCESS;
+}
+
+
+// Evaluate the expression in the tree
+Result EvaluateExpression( float *res )
+{
+    pCalcElement sol;
+
+    sol = TreeEvaluate(pTG);
+    if (sol == NULL) return FAILURE;
+
+    *res = sol->val;
+
+    return SUCCESS;
 }
