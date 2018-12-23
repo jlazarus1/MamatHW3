@@ -3,9 +3,10 @@
 
 #include "defs.h"
 
-/*typdefs of the strucs and pointers */
-typedef struct _node *pNode
-typedef struct _tree *pTree
+/*typdefs of the structs and pointers */
+
+typedef struct _node *pNode;
+typedef struct _tree *pTree;
 
 typedef void* pElement;
 typedef void* pKey;
@@ -24,20 +25,20 @@ typedef Bool		(*CompareKeyFunction)(const pKey key1,
 
 /* Interface functions */
 
-pTree		TreeCreate(CloveFunction,DelFunction,OperateFunction, 
-		GetKeyFunction,CompateKeyFunction);
+pTree		TreeCreate(CloneFunction,DelFunction,OperateFunction,
+		GetKeyFunction,CompareKeyFunction);
 
 void		TreeDestroy(pTree);
 
-pNode		TreeAddRoot(pTree,pNode);
+pNode		TreeAddRoot(pTree,pElement);
 
-pNode		TreeAddLeftChild(pTree,pNode father,pNode left);
+pNode		TreeAddLeftChild(pTree,pNode,pElement);
 
-pNode		TreeAddRightChild(pTree,pNode father, pNode right);
+pNode		TreeAddRightChild(pTree,pNode, pElement);
 
-pNode		TreeFindElement(pTree,pKey);
+pElement	TreeFindElement(pTree,pKey);
 
-pNode		TreeEvaluate(pTree);
+pElement	TreeEvaluate(pTree);
 
 
 #endif	// EXP_TREE_H
