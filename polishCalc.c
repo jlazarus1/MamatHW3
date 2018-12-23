@@ -15,6 +15,9 @@ pTree pTG = NULL;
 
 // Functions implementation :
 
+Result addleft (pNode pN);
+Result addright (pNode pN);
+
 // Tree functions:
 
 pCalcElement CloneF (pCalcElement e)
@@ -40,9 +43,7 @@ pCalcElement OperateF (pCalcElement op , pCalcElement left , pCalcElement right)
     res = (pCalcElement)malloc(sizeof(CalcElement));
     if (res == NULL) return NULL;
 
-    res->opType=NULL;
     res->type=OPERAND;
-    res->key=NULL;
     switch (op -> opType)
     {
         case ('ADD') :
@@ -123,15 +124,55 @@ void create_element (pCalcElement elem , char* str)
         default :
             elem->type = SYMBOL;
             strcpy(elem->key , str);
+            elem->val = 0;
             break;
     }
 
 }
 
 // Adding left branch in expression tree:
-Result addleft (char* exp , pNode pN)
+Result addleft (pNode pN)
 {
+    char* tok = strtok(NULL , " ");
+    if (tok == NULL) return SUCCESS;
 
+    pCalcElement e = (pCalcElement)malloc(sizeof(CalcElement));
+    if (e == NULL) return FAILURE;
+    create_element(e , tok);
+
+    pNode left = TreeAddLeftChild(pTG , pN , e);
+    if (e->type != OPERATOR) // if the tree is only one number then finish
+    {
+        return SUCCESS;
+    }
+    else
+    {
+        if(addleft(left) == FAILURE) return FAILURE;
+        if(addright(left) == FAILURE) return FAILURE;
+    }
+}
+
+
+// Adding right branch in expression tree:
+Result addright (pNode pN)
+{
+    char* tok = strtok(NULL , " ");
+    if (tok == NULL) return SUCCESS;
+
+    pCalcElement e = (pCalcElement)malloc(sizeof(CalcElement));
+    if (e == NULL) return FAILURE;
+    create_element(e , tok);
+
+    pNode right = TreeAddRightChild(pTG , pN , e);
+    if (e->type != OPERATOR) // if the tree is only one number then finish
+    {
+        return SUCCESS;
+    }
+    else
+    {
+        if(addleft(right) == FAILURE) return FAILURE;
+        if(addright(right) == FAILURE) return FAILURE;
+    }
 }
 
 /*------------------------------------------------------------------------------*/
@@ -140,11 +181,10 @@ Result addleft (char* exp , pNode pN)
 // Build the math expression tree
 Result InitExpression( char* exp )
 {
-    char* math = exp;
-    char* tok = strtok_r( math, " " , &math);
+    char* tok = strtok( exp , " " );
     if (tok == NULL) return FAILURE;
 
-    pCalcElement e = (pCalcElement)malloc(sizeof(CalcElement));//TODO remember to free
+    pCalcElement e = (pCalcElement)malloc(sizeof(CalcElement));
     if (e == NULL) return FAILURE;
 
     create_element(e , tok);
@@ -161,9 +201,12 @@ Result InitExpression( char* exp )
     {
         return SUCCESS;
     }
-
-    addleft(math , pN);
-    addright(math , pN);
+    else
+    {
+        if(addleft(pN) == FAILURE) return FAILURE;
+        if(addright(pN) == FAILURE) return FAILURE;
+    }
+    return SUCCESS;
 }
 
 
@@ -179,7 +222,6 @@ Result SetSymbolVal( char* symName, float val )
     e->key = NULL;
     e->val = val;
     e->type = OPERAND;
-    e->opType = NULL;
     return SUCCESS;
 }
 
@@ -195,4 +237,10 @@ Result EvaluateExpression( float *res )
     *res = sol->val;
 
     return SUCCESS;
+}
+
+// Delete expression tree
+void DeleteExpression()
+{
+    TreeDestroy(pTG);
 }
