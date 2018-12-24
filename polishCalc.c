@@ -20,7 +20,7 @@ Result addright (pNode pN);
 
 // Tree functions:
 
-pCalcElement CloneF (pCalcElement e)
+pCalcElement CloneF(pCalcElement e)
 {
     pCalcElement newE;
     newE = (pCalcElement)malloc(sizeof(CalcElement));
@@ -46,16 +46,16 @@ pCalcElement OperateF (pCalcElement op , pCalcElement left , pCalcElement right)
     res->type=OPERAND;
     switch (op -> opType)
     {
-        case ('ADD') :
+        case (ADD) :
             res->val = left->val + right->val;
             break;
-        case ('SUB') :
+        case (SUB) :
             res->val = left->val - right->val;
             break;
-        case ('MUL') :
+        case (MUL) :
             res->val = left->val * right->val;
             break;
-        case ('DIV') :
+        case (DIV) :
             res->val = left->val / right->val;
             break;
         default      :
@@ -117,7 +117,7 @@ void create_element (pCalcElement elem , char* str)
         case '8' :
         case '9' :
             elem->type = OPERAND;
-            elem->val = atof(*str);
+            elem->val = atof(str);
             elem->key = NULL;
             break;
 
@@ -150,6 +150,7 @@ Result addleft (pNode pN)
         if(addleft(left) == FAILURE) return FAILURE;
         if(addright(left) == FAILURE) return FAILURE;
     }
+return SUCCESS;
 }
 
 
@@ -173,6 +174,8 @@ Result addright (pNode pN)
         if(addleft(right) == FAILURE) return FAILURE;
         if(addright(right) == FAILURE) return FAILURE;
     }
+
+return SUCCESS;git 
 }
 
 /*------------------------------------------------------------------------------*/
@@ -192,8 +195,8 @@ Result InitExpression( char* exp )
 
     if (pTG != NULL) TreeDestroy(pTG);
 
-    pTG = TreeCreate(CloneF , DelF , OperateF,
-               GetKeyF , CompareKeyF);
+    pTG = TreeCreate((void*)CloneF , (void*)DelF , (void*)OperateF,
+             		(void*)GetKeyF , (void*)CompareKeyF);
 
     pN = TreeAddRoot(pTG, e);
 
