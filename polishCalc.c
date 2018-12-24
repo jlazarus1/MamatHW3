@@ -46,16 +46,16 @@ pCalcElement OperateF (pCalcElement op , pCalcElement left , pCalcElement right)
     res->type=OPERAND;
     switch (op -> opType)
     {
-        case ('ADD') :
+        case (ADD) :
             res->val = left->val + right->val;
             break;
-        case ('SUB') :
+        case (SUB) :
             res->val = left->val - right->val;
             break;
-        case ('MUL') :
+        case (MUL) :
             res->val = left->val * right->val;
             break;
-        case ('DIV') :
+        case (DIV) :
             res->val = left->val / right->val;
             break;
         default      :
@@ -66,11 +66,14 @@ pCalcElement OperateF (pCalcElement op , pCalcElement left , pCalcElement right)
 
 char* GetKeyF (pCalcElement elem)
 {
+    char* tmp = elem->key;
+    int val = elem->val;
     return (elem->key);
 }
 
 Bool CompareKeyF (const char* key1 , const char* key2)
 {
+    if (key2 == NULL) return FALSE;
     if (strcmp(key1,key2) == 0)
     {
         return TRUE;
@@ -81,7 +84,7 @@ Bool CompareKeyF (const char* key1 , const char* key2)
 // Side functions:
 
 // creating the element in the math tree:
-void create_element (pCalcElement elem , char* str)
+void create_element (pCalcElement elem , const char* str)
 {
     switch (*str)
     {
@@ -117,12 +120,14 @@ void create_element (pCalcElement elem , char* str)
         case '8' :
         case '9' :
             elem->type = OPERAND;
-            elem->val = atof(*str);
+            elem->val = atof(str);
             elem->key = NULL;
             break;
 
         default :
             elem->type = SYMBOL;
+            int len = strlen(str);
+            elem->key = (char*)malloc(sizeof(char)*len);
             strcpy(elem->key , str);
             elem->val = 0;
             break;
@@ -164,7 +169,7 @@ Result addright (pNode pN)
     create_element(e , tok);
 
     pNode right = TreeAddRightChild(pTG , pN , e);
-    if (e->type != OPERATOR) // if the tree is only one number then finish
+    if (e->type != OPERATOR) // recursive operation stops on Symbol or Operands
     {
         return SUCCESS;
     }
@@ -190,10 +195,10 @@ Result InitExpression( char* exp )
     create_element(e , tok);
     pNode pN;
 
-    if (pTG != NULL) TreeDestroy(pTG);
+    //if (pTG != NULL) TreeDestroy(pTG);
 
-    pTG = TreeCreate(CloneF , DelF , OperateF,
-               GetKeyF , CompareKeyF);
+    pTG = TreeCreate(*CloneF , *DelF , *OperateF,
+               *GetKeyF , *CompareKeyF);
 
     pN = TreeAddRoot(pTG, e);
 

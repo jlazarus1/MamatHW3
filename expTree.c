@@ -53,7 +53,7 @@ void release (pNode node , pTree pT)
 pNode findkey (pTree pT , pNode pN , pKey pK)
 {
     pNode pNtmp;
-    if (pT->ComparekeyFun(pK , pT->GetkeyFun(pN))) return pN;
+    if ((pT->ComparekeyFun(pK , pT->GetkeyFun(pN)))==TRUE) return pN;
 
     if (pN->leftChild != NULL)
     {
