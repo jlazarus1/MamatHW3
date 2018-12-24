@@ -1,0 +1,1 @@
+C:/cygwin64/bin/gcc.exe -g  -Wl,--enable-auto-import CMakeFiles/MamatHW3.dir/expTree.c.o CMakeFiles/MamatHW3.dir/polishCalc.c.o CMakeFiles/MamatHW3.dir/main.c.o  -o MamatHW3.exe -Wl,--out-implib,libMamatHW3.dll.a -Wl,--major-image-version,0,--minor-image-version,0 

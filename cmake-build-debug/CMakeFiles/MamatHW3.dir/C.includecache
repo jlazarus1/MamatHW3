@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/cygdrive/c/Users/Or David/Documents/Wet Mamat/HW3/MamatHW3/defs.h
+
+/cygdrive/c/Users/Or David/Documents/Wet Mamat/HW3/MamatHW3/expTree.h
+defs.h
+/cygdrive/c/Users/Or David/Documents/Wet Mamat/HW3/MamatHW3/defs.h
+
+/cygdrive/c/Users/Or David/Documents/Wet Mamat/HW3/MamatHW3/polishCalc.c
+stdlib.h
+-
+assert.h
+-
+string.h
+-
+polishCalc.h
+/cygdrive/c/Users/Or David/Documents/Wet Mamat/HW3/MamatHW3/polishCalc.h
+polishCalcTypes.h
+/cygdrive/c/Users/Or David/Documents/Wet Mamat/HW3/MamatHW3/polishCalcTypes.h
+expTree.h
+/cygdrive/c/Users/Or David/Documents/Wet Mamat/HW3/MamatHW3/expTree.h
+
+/cygdrive/c/Users/Or David/Documents/Wet Mamat/HW3/MamatHW3/polishCalc.h
+defs.h
+/cygdrive/c/Users/Or David/Documents/Wet Mamat/HW3/MamatHW3/defs.h
+
+/cygdrive/c/Users/Or David/Documents/Wet Mamat/HW3/MamatHW3/polishCalcTypes.h
+

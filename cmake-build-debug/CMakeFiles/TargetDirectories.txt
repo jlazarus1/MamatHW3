@@ -1,0 +1,3 @@
+/cygdrive/c/Users/Or David/Documents/Wet Mamat/HW3/MamatHW3/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/cygdrive/c/Users/Or David/Documents/Wet Mamat/HW3/MamatHW3/cmake-build-debug/CMakeFiles/MamatHW3.dir
+/cygdrive/c/Users/Or David/Documents/Wet Mamat/HW3/MamatHW3/cmake-build-debug/CMakeFiles/edit_cache.dir
