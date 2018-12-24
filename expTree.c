@@ -20,7 +20,7 @@ typedef struct _tree
 
 	/*function pointers*/
 	CloneFunction		CloneFun;
-	DelFunction			DelFun;
+	DelFunction		DelFun;
 	OperateFunction		OperateFun;
 	GetKeyFunction		GetkeyFun;
 	CompareKeyFunction	ComparekeyFun;
