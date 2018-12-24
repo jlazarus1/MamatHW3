@@ -69,7 +69,7 @@ char* GetKeyF (pCalcElement elem)
     return (elem->key);
 }
 
-Bool CompareKeyF (const char* key1 , const char* key2)
+Bool CompareKeyF (char* key1 ,char* key2)
 {
     if (strcmp(key1,key2) == 0)
     {
@@ -83,6 +83,7 @@ Bool CompareKeyF (const char* key1 , const char* key2)
 // creating the element in the math tree:
 void create_element (pCalcElement elem , char* str)
 {
+	char* tmp;
     switch (*str)
     {
         case '+' :
@@ -122,9 +123,12 @@ void create_element (pCalcElement elem , char* str)
             break;
 
         default :
-            elem->type = SYMBOL;
-            strcpy(elem->key , str);
-            elem->val = 0;
+                elem->type = SYMBOL;
+	   	tmp=(char*)malloc(sizeof(str));
+		if(tmp==NULL) return;
+	    	strcpy(tmp, str);
+		elem->key=tmp;
+           	elem->val = 0;
             break;
     }
 
@@ -175,7 +179,7 @@ Result addright (pNode pN)
         if(addright(right) == FAILURE) return FAILURE;
     }
 
-return SUCCESS;git 
+return SUCCESS;
 }
 
 /*------------------------------------------------------------------------------*/
